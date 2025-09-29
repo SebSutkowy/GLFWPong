@@ -75,13 +75,12 @@ const char* fragmentShaderSource = "#version 330 core\n"
 	"void main() {\n"
 	"	fragColor = vec4(vColor, 1.0); }\n";
 
-int clamp(int* val, int min, int max)
+void clamp(float* val, float min, float max)
 {
 	if(*val < min)
 		*val = min;
 	else if(*val > max)
 		*val = max;
-	
 }
 
 GLuint compileShader(GLenum type, const char* src)
@@ -127,7 +126,9 @@ GLuint createProgram(const char* vs, const char* fs)
 void update()
 {
 	instances[leftPaddle].pos.y += speed * (moveLeft[1] - moveLeft[0]);
+	clamp(&instances[leftPaddle].pos.y, 0.0f, 600.0f - instances[leftPaddle].size.y);
 	instances[rightPaddle].pos.y += speed * (moveRight[1] - moveRight[0]);
+	clamp(&instances[rightPaddle].pos.y, 0.0f, 600.0f - instances[leftPaddle].size.y);
 }
 
 int main(void)
